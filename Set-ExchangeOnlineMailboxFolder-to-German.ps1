@@ -1,5 +1,5 @@
 ﻿# Skript zur Anpassung der ExchangeOnline Ordner-Namen
-# Stannek GmbH  v.1.12 - 17.01.2022 - E.Sauerbier
+# Stannek GmbH  v.1.13 - 18.01.2022 - E.Sauerbier
 
 # Diese Skript muss als Administrator ausgeführt werden, ansonsten wird es nicht gestartet
 #Requires -RunAsAdministrator
@@ -20,6 +20,9 @@ Connect-ExchangeOnline -ErrorAction Stop
 $ChangedMailboxes = Get-Mailbox -RecipientTypeDetails UserMailbox, SharedMailbox, RoomMailbox, EquipmentMailbox | Get-MailboxRegionalConfiguration | Where-Object {$_.Language -ne $Language}
 $ChangedMailboxes | Set-MailboxRegionalConfiguration -Language $Language -DateFormat $DateFormat -TimeFormat $TimeFormat -TimeZone $TimeZone -LocalizeDefaultFolderName
 
+# Verbindung zu ExchangeOnline Shell beenden
+
+Disconnect-ExchangeOnline
 
 # Ergebnis anzeigen
 Write-host "Folgende Postfächer wurden angepasst: " $ChangedMailboxes.Identity
