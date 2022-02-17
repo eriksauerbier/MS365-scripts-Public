@@ -1,8 +1,11 @@
 ﻿# Dieses Skript setzt im lokalen AD den UPN für die  Office 365 & Exchange Online Anmeldung
-# Stannek GmbH v.1.0 - 17.01.2022 - E.Sauerbier
+# Stannek GmbH v.1.01 - 17.02.2022 - E.Sauerbier
 
 # User-OU auswählen
 $OU = Get-ADOrganizationalUnit -Filter * | Select-Object Name, DistinguishedName  | Out-GridView -PassThru -Title "OU der Benutzer auswählen"
+
+# Falls Abbrechen geklickt wird, dann Skript beenden
+If ($OU -eq $Null) {break}
 
 # alle User aus OU auslesen
 $Users = Get-ADUser -Filter * -SearchBase $OU.DistinguishedName -Properties Mail
