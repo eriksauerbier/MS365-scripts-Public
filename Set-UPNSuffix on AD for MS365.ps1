@@ -1,5 +1,5 @@
 ﻿# Dieses Skript setzt im lokalen AD den UPN für die  Office 365 & Exchange Online Anmeldung
-# Stannek GmbH v.1.01 - 17.02.2022 - E.Sauerbier
+# Stannek GmbH v.1.1 - 17.03.2022 - E.Sauerbier
 
 # User-OU auswählen
 $OU = Get-ADOrganizationalUnit -Filter * | Select-Object Name, DistinguishedName  | Out-GridView -PassThru -Title "OU der Benutzer auswählen"
@@ -10,8 +10,8 @@ If ($OU -eq $Null) {break}
 # alle User aus OU auslesen
 $Users = Get-ADUser -Filter * -SearchBase $OU.DistinguishedName -Properties Mail
 
-# UPNSuffix aus Mai-Attribut eines Users auslesen
-$users | foreach {if ($_.Mail -ne $Null) {$UPNSuffix = (($_.Mail).Split("@"))[0]}}
+# UPNSuffix aus Mail-Attribut eines Users auslesen
+$users | foreach {if ($_.Mail -ne $Null) {$UPNSuffix = (($_.Mail).Split("@"))[1]}}
 
 # Wenn kein UPN-Suffix ausgelesen wurde Skript abbrechen
 if ($UPNSuffix -eq $Null) {Read-Host "Mail-Attribut im AD-User nicht gepflegt"; break}
