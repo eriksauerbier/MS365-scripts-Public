@@ -1,5 +1,5 @@
 rem Skript für die Migration des Outlook-Profils von OnPrem Exchange zu MS365
-rem Stannek GmbH v.1.0 - 22.03.2022 - E.Sauerbier
+rem Stannek GmbH v.1.1 - 23.03.2022 - E.Sauerbier
 
 rem Parameter
 
@@ -8,6 +8,7 @@ SET OSTPath1="%LocalAppData%\Microsoft\Outlook\*OST"
 SET OSTPath2="%HomeDrive%\Outlook\*OST"
 SET OutlookORGProfilePath="HKCU\Software\Microsoft\Office\16.0\Outlook\Profiles"
 SET OutlookCopyProfilePath="HKCU\Software\Microsoft\Office\16.0\Outlook\Profiles.OnPREM"
+SET OutlookAutoDicoverPath="HKCU\Software\Microsoft\Office\16.0\Outlook\Autodiscover"
 
 rem Outlook starten um aktuelle Einstellungen zu prüfen
 
@@ -28,6 +29,10 @@ reg copy %OutlookORGProfilePath% %OutlookCopyProfilePath% /s
 reg Delete %OutlookORGProfilePath% /f
 
 pause
+
+rem AutoDiscover Einstellung zurücksetzen
+
+reg Delete %OutlookAutoDicoverPath% /f
 
 rem AnmeldeInformationen löschen
 
