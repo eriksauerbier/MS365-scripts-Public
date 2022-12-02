@@ -1,5 +1,5 @@
 rem Skript für die Migration des Outlook-Profils von OnPrem Exchange zu MS365
-rem Stannek GmbH v.1.3.2 - 15.09.2022 - E.Sauerbier
+rem Stannek GmbH v.1.3.3 - 02.12.2022 - E.Sauerbier
 
 rem ## Parameter ##
 
@@ -41,7 +41,7 @@ rem reg Delete %OutlookAutoDicoverPath% /f
 
 rem DATEV Office-Einstellung zurücksetzen
 
-regedit /S "%DATEVPP%\PROGRAMM\BSOffice\Service auf die Datei SetOfficeAdapterToDefault_ALL.reg"
+regedit /S "%DATEVPP%\PROGRAMM\BSOffice\Service\SetOfficeAdapterToDefault_ALL.reg"
 
 rem AnmeldeInformationen löschen
 
