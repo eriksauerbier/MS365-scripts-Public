@@ -1,9 +1,9 @@
 rem Skript für die Migration des Outlook-Profils von OnPrem Exchange zu MS365
-rem Stannek GmbH v.1.3.3 - 02.12.2022 - E.Sauerbier
+rem Stannek GmbH v.1.3.4 - 25.08.2023 - E.Sauerbier
 
 rem ## Parameter ##
 
-SET OutlookPath="C:\Program Files (x86)\Microsoft Office\root\Office16\Outlook.exe"
+SET Outlook="C:\Program Files (x86)\Microsoft Office\root\Office16\Outlook.exe"
 SET OSTPath1="%LocalAppData%\Microsoft\Outlook\*OST"
 SET OSTPath2="%HomeDrive%\Outlook\*OST"
 SET OutlookORGProfilePath="HKCU\Software\Microsoft\Office\16.0\Outlook\Profiles"
@@ -16,7 +16,7 @@ SET OutlookCopyPath="HKCU\Software\Microsoft\Office\16.0\Outlook.OnPREM"
 rem #################
 
 rem Outlook starten um aktuelle Einstellungen zu prüfen
-rem call %OutlookPath% 
+rem call %Outlook% 
 
 rem pause
 
