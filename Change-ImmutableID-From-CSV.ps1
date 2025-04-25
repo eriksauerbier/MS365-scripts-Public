@@ -1,5 +1,5 @@
 ﻿# Skript ändern der ImmutableID aus einer CSV
-# Stannek GmbH v.1.0 - 03.01.2025 - E.Sauerbier
+# Stannek GmbH v.1.1 - 25.04.2025 - E.Sauerbier
 
 # Assembly für Hinweisboxen laden
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
@@ -11,12 +11,12 @@ IF ($Null -eq $WorkPath) {$WorkPath = Split-Path $psEditor.GetEditorContext().Cu
 # installierte Module auslesen
 $InstalledModule = Get-InstalledModule
 
-# PS-Modul für AzureAD laden oder installieren
-if ($InstalledModule.Name -notcontains "AzureAD") {Install-Module -Name AzureAD -Scope CurrentUser -AllowClobber -Force -Verbose -ErrorVariable InstallError}
-else {Update-Module AzureAD -Scope CurrentUser -Verbose -ErrorVariable InstallError}
+# PS-Modul fuer Microsoft Entra installieren oder updaten
+if ($InstalledModule.Name -notcontains "Microsoft.Entra") {Install-Module -Name Microsoft.Entra -Scope CurrentUser -AllowClobber -Force -Verbose}
+else {Update-Module Microsoft.Entra -Scope CurrentUser -Verbose}
 
-# PS-Modul fuer AzureAD laden
-Import-Module AzureAD -ErrorVariable LoadError -Verbose
+# PS-Modul fuer EntraID laden
+Import-Module Microsoft.Entra -ErrorVariable LoadError -Verbose
 
 if ($InstallError -ne $Null) {
       $header = "Fehler beim Installieren des PS-Module"
@@ -34,8 +34,8 @@ if ($LoadError -ne $Null) {
       break
       }
 
-# Mit AzureAD verbinden
-Connect-AzureAd -Verbose -ErrorAction Stop
+# Mit Entra Shell verbinden
+Connect-Entra -Scopes 'User.ReadWrite.All' -Verbose -ErrorAction Stop
 
 # CSV-Importdatei auswählen
 $CSVFileDialog = New-Object System.Windows.Forms.OpenFileDialog
@@ -49,15 +49,15 @@ $Users = Import-CSV -Path $CSVFileDialog.filename -Delimiter ","
 # ImmutableID für alle Benutzer setzen
 foreach ($User in $Users) {
     # ObjectID auslesen
-    $UserObjectID = Get-AzureADUser -All $True | Select-Object UserPrincipalName, ObjectID | Where-Object {$_.UserPrincipalName -eq $User.UPN}
+    $UserObjectID = Get-EntraUser -UserID $User.UPN | Select-Object UserPrincipalName, ObjectID
     # neue ImmutableID setzen
-    Set-AzureADUser -ObjectId $UserObjectID.ObjectId -ImmutableId $User.ImmutableID -Verbose
+    Set-EntraUser -ObjectId $UserObjectID.ObjectId -ImmutableId $User.ImmutableID -Verbose
 }
 
 # ImmutableID für alle Benutzer anzeigen
-Get-AzureADUser | Select-Object UserPrincipalName, ImmutableID
+Get-EntraUser | Select-Object UserPrincipalName, ImmutableID
 
 Read-Host "Zum beenden beliebige Taste druecken"
 
 # Shell beenden
-Disconnect-AzAccount
+Disconnect-Entra
