@@ -1,5 +1,5 @@
 ﻿# Skript ändern der ImmutableID aus einer CSV
-# Stannek GmbH v.1.1 - 25.04.2025 - E.Sauerbier
+# Stannek GmbH v.1.1.1 - 29.04.2025 - E.Sauerbier
 
 # Assembly für Hinweisboxen laden
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
@@ -13,7 +13,7 @@ $InstalledModule = Get-InstalledModule
 
 # PS-Modul fuer Microsoft Entra installieren oder updaten
 if ($InstalledModule.Name -notcontains "Microsoft.Entra") {Install-Module -Name Microsoft.Entra -Scope CurrentUser -AllowClobber -Force -Verbose}
-else {Update-Module Microsoft.Entra -Scope CurrentUser -Verbose}
+else {Update-Module Microsoft.Entra -Verbose}
 
 # PS-Modul fuer EntraID laden
 Import-Module Microsoft.Entra -ErrorVariable LoadError -Verbose
@@ -51,7 +51,7 @@ foreach ($User in $Users) {
     # ObjectID auslesen
     $UserObjectID = Get-EntraUser -UserID $User.UPN | Select-Object UserPrincipalName, ObjectID
     # neue ImmutableID setzen
-    Set-EntraUser -ObjectId $UserObjectID.ObjectId -ImmutableId $User.ImmutableID -Verbose
+    Set-EntraUser -UserId $UserObjectID.ObjectId -ImmutableId $User.ImmutableID -Verbose
 }
 
 # ImmutableID für alle Benutzer anzeigen
