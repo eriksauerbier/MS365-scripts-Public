@@ -1,4 +1,5 @@
 ﻿# Dieses Skript exportiert die ImmutableID alle AD-User aus einer OU in eine CSV
+# ERSTER SCHRITT
 # Stannek GmbH v.1.0 - 02.01.2025 - E.Sauerbier
 
 # Parameter
