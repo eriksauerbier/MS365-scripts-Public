@@ -1,4 +1,5 @@
 ﻿# Skript ändern der ImmutableID aus einer CSV
+# ZWEITER SCHRITT
 # Stannek GmbH v.1.1.1 - 29.04.2025 - E.Sauerbier
 
 # Assembly für Hinweisboxen laden
